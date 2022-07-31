@@ -3,19 +3,9 @@ const fs = require('fs');
 const inquirer = require('inquirer');
 const generatePage = require('./src/page-template');
 
-// const pageHTML = generatePage(theirName, theirGithub);
 
-
-// fs.writeFile('./index.html', pageHTML, err => {
-//     if (err)
-//         throw err;
-    
-//     console.log('Portfolio complete! Check out index.html to see the output!');
-// });
-
-
-const promptUser = () => {
-    return inquirer.prompt([
+const promptUser = () => 
+    inquirer.prompt([
         {
             type: 'input',
             name: 'name',
@@ -23,10 +13,8 @@ const promptUser = () => {
             validate: input => {
                 if (input)
                     return true;
-                else{
-                    console.log('Please enter your name!');
-                    return false;
-                }
+                console.log('Please enter your name!');
+                return false;
             }
         },
         {
@@ -36,10 +24,8 @@ const promptUser = () => {
             validate: input => {
                 if (input)
                     return true;
-                else{
-                    console.log('Please enter your Github username!');
-                    return false;
-                }
+                console.log('Please enter your Github username!');
+                return false;
             }
         },
         {
@@ -55,12 +41,11 @@ const promptUser = () => {
             when: ({confirmAbout}) => {
                 if (confirmAbout)
                     return true;
-                else
-                    return false;
+                return false;
             }
         }
     ])
-};
+;
 
 
 const promptProject = portfolioData => {
@@ -84,10 +69,8 @@ Add a new project
             validate: input => {
                 if (input)
                     return true;
-                else{
-                    console.log('Please enter a name for this project!');
-                    return false;
-                }
+                console.log('Please enter a name for this project!');
+                return false;
             }
         },
         {
@@ -97,10 +80,8 @@ Add a new project
             validate: input => {
                 if (input)
                     return true;
-                else{
-                    console.log('Please enter a description for this project!');
-                    return false;
-                }
+                console.log('Please enter a description for this project!');
+                return false;
             }
         },
         {
@@ -116,10 +97,8 @@ Add a new project
             validate: input => {
                 if (input)
                     return true;
-                else{
-                    console.log('Please enter a Github link for this project!');
-                    return false;
-                }
+                console.log('Please enter a Github link for this project!');
+                return false;
             }
         },
         {
@@ -136,13 +115,7 @@ Add a new project
         }
     ])
         .then(projectData => {
-            portfolioData.projects.push({
-                name: projectData.name,
-                description: projectData.description,
-                languages: projectData.languages,
-                link: projectData.link,
-                feature: projectData.feature,
-            });
+            portfolioData.projects.push(projectData);
 
             if (projectData.confirmAddProject)
                 return promptProject(portfolioData);
@@ -156,6 +129,13 @@ Add a new project
 promptUser()
     .then(promptProject)
     .then(portfolioData => {
-        console.log(portfolioData);
+        const pageHTML = generatePage(portfolioData);
+
+        fs.writeFile('./index.html', pageHTML, err => {
+            if (err)
+                throw err;
+            
+            console.log('Portfolio complete! Check out index.html to see the output!');
+        });
     });
 ;
