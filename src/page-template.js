@@ -14,7 +14,6 @@ const generatePage = (name, github) => `
         <h2><a href="https://github.com/${github}">Github</a></h2>
     </body>
     </html>
-    `;
-;
+`;
 
 module.exports = generatePage;
