@@ -3,7 +3,7 @@ const fs = require('fs');
 
 
 const writeFile = fileContent => new Promise((resolve, reject) => {
-    fs.writeFile('./dist/index.html', pageHTML, err => {
+    fs.writeFile('./dist/index.html', fileContent, err => {
         if (err){
             reject(err);
             return;
@@ -17,7 +17,7 @@ const writeFile = fileContent => new Promise((resolve, reject) => {
 });
 
 
-const copyFile = fileContent => new Promise((resolve, reject) => {
+const copyFile = () => new Promise((resolve, reject) => {
     fs.copyFile('./src/style.css', './dist/style.css', err => {
         if (err){
             reject(err);
