@@ -17,8 +17,26 @@ const generateProjects = projectsArr => `
         <h2 class="text-dark bg-primary p-2 display-inline-block">Work</h2>
         <div class="flex-row justify-space-between">
             ${projectsArr
-                .map(({name, description, languages, link, feature}) => 
-                    `<div class="col-12 ${feature ? '' : 'col-md-6'} mb-2 bg-dark text-light p-3 flex-column">
+                .filter(({feature}) => feature)
+                .map(({name, description, languages, link}) => 
+                    `<div class="col-12 mb-2 bg-dark text-light p-3 flex-column">
+                        <h3 class="portfolio-item-title text-light">${name}</h3>
+                        
+                        <h5 class="portfolio-languages">
+                            Built with: ${languages.join(', ')}
+                        </h5>
+                        
+                        <p>${description}</p>
+                        
+                        <a href="${link}" class="btn mt-auto"><i class="fab fa-github mr-2"></i>View project on GitHub</a>
+                    </div>`
+                )
+                .join('')
+            }
+            ${projectsArr
+                .filter(({feature}) => feature)
+                .map(({name, description, languages, link}) => 
+                    `<div class="col-12 col-md-6 mb-2 bg-dark text-light p-3 flex-column">
                         <h3 class="portfolio-item-title text-light">${name}</h3>
                         
                         <h5 class="portfolio-languages">
@@ -35,6 +53,7 @@ const generateProjects = projectsArr => `
         </div>
     </section>`
 ;
+
 
 
 module.exports = templateData => {
